@@ -9,7 +9,7 @@ cleanup() {
 trap cleanup EXIT
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 <zfs_mirror_name>|test|--check <zfs_mirror_name>"
+    echo "Usage: $0 [--check] <zfs_mirror_name>|test"
     exit 1
 fi
 
