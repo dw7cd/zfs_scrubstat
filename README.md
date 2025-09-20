@@ -1,6 +1,6 @@
 ## What is This?
 
-This is a simple script that is intended to provide a progress bar for ZFS scrub operations. Useful when you want the scrub to run in a terminal and continuously show you progress without having to re-query with 'zpool status'.
+This is a simple script that is intended to provide a progress view for ZFS scrub operations. Useful when you want the scrub to run in a terminal and continuously show you progress without having to re-query with 'zpool status'.
 
 ## How to Use it?
 
@@ -11,3 +11,7 @@ It will start a scrub if one is not already running. If a scrub is already runni
 If you wish to run the test, run the script with 'sudo ./zfs_scrub.sh --test'. This will create a pair of loopback files in your /tmp taking up 80% of your free /tmp space, then fill 90% of that with random data. Then it will test the script functionality using this temp data, and clean up after itself.
 
 Final option is to just query whether a scrub is currently running. To do this, run 'sudo ./zfs_scrub.sh --check <your_pool_name>'. It is mostly intended for the test option, but exists.
+
+## Wish List
+
+Make it non-blinky by only updating the changes in the zpool status output.
