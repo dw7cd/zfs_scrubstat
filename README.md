@@ -1,7 +1,5 @@
 ## What Is This?
 
-IMPORTANT: This script invokes "losetup -D" (detach-all) - Don't use it if you are already using loopback devices. I wrote this for an environment that doesn't have any.
-
 This is a simple script that is intended to provide a progress bar for ZFS scrub operations. Useful when you want the scrub to run in a terminal and continuously show you progress without having to re-query with 'zpool status'.
 
 Run the script as: 'sudo ./zfs_scrub.sh <your_pool_name>'
