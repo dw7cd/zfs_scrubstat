@@ -52,7 +52,7 @@ if [ "$1" == "--test" ]; then
     echo "Setting up test ZFS mirror pool with loop devices..."
 
     sudo zpool destroy "$TEST_POOL" 2>/dev/null || true
-    sudo losetup -D
+    # Only remove our specific loop devices and files, not all
     sudo rm -f "$TMP1" "$TMP2"
     sudo rm -rf "$MNT"
 
