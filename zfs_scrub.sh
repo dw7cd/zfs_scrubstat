@@ -9,7 +9,7 @@ cleanup() {
 trap cleanup EXIT
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 [--check] <zfs_mirror_name>|test"
+    echo "Usage: $0 [--check] <zfs_mirror_name> | --test"
     exit 1
 fi
 
@@ -26,7 +26,7 @@ if [ "$1" == "--check" ]; then
 fi
 
 # --- Test mode ---
-if [ "$1" == "test" ]; then
+if [ "$1" == "--test" ]; then
     for cmd in zfs zpool losetup dd awk; do
         if ! command -v $cmd >/dev/null 2>&1; then
             echo "Error: $cmd command not found. Please install required utilities."
