@@ -142,27 +142,6 @@ fi
 
 POOL="$1"
 
-get_scrub_status() {
-    zpool status "$POOL" | awk '
-        /scrub in progress/ {
-            pct = 0
-            for (i=1; i<=NF; i++) {
-                if ($i ~ /%/) {
-                    gsub(/[^0-9]/, "", $i)
-                    pct = $i
-                    break
-                }
-            }
-            print pct
-            exit
-        }
-        /scrub repaired/ || /scrub completed/ {
-            print "done"
-            exit
-        }
-    '
-}
-
 if zpool status "$POOL" | grep -q "scrub in progress"; then
     echo "A scrub is already running on pool: $POOL"
     started_by_script=0
@@ -172,26 +151,23 @@ else
     started_by_script=1
 fi
 
-progress_bar() {
-    local progress=$1
-    local width=50
-    local filled=$((progress * width / 100))
-    local empty=$((width - filled))
-    printf "\r["
-    for ((i=0; i<filled; i++)); do printf "#"; done
-    for ((i=0; i<empty; i++)); do printf " "; done
-    printf "] %3d%%" "$progress"
-}
-
+# Print zpool status in place until scrub is done
+lines_printed=0
 while true; do
-    status=$(get_scrub_status)
-    if [[ "$status" == "done" ]]; then
-        progress_bar 100
-        break
-    else
-        progress_bar "$status"
-        sleep 1
+    status=$(zpool status "$POOL")
+    lines=$(echo "$status" | wc -l)
+    # Move cursor up and clear lines if not the first iteration
+    if [ $lines_printed -gt 0 ]; then
+        for ((i=0; i<lines_printed; i++)); do
+            printf "\033[F\033[2K"
+        done
     fi
+    echo "$status"
+    lines_printed=$lines
+    if ! echo "$status" | grep -q "scrub in progress"; then
+        break
+    fi
+    sleep 1
 done
 
 echo
