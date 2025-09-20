@@ -2,12 +2,6 @@
 
 set -e
 
-# Ensure a newline is printed on exit (for progress bar)
-cleanup() {
-    echo
-}
-trap cleanup EXIT
-
 if [ $# -lt 1 ]; then
     echo "Usage: $0 [--check] <zfs_mirror_name> | --test"
     exit 1
